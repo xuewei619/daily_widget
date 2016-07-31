@@ -3,7 +3,8 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: {    
-	   spinning_gallery: './js/spinning_gallery.js'
+	   spinning_gallery: './js/spinning_gallery.js',
+	   webpack_favicon: './js/webpack_favicon.js'
   	},
     output: {
         path: path.join(__dirname, "build"),
