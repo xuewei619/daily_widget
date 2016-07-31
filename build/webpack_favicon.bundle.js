@@ -79,8 +79,8 @@
 				marginTop: '-' + height / 2 + 'px',
 				transition: 'transform 1s',
 				transform: angleX + ' ' + angleY + ' ' + angleZ + ' translateZ(' + width / 2 + 'px)',
-				border: 'solid 1px #009ACD',
-				background: 'radial-gradient(white 5%, #009ACD 95%)'
+				border: 'solid 1px ' + this.props.color,
+				background: this.props.background
 			};
 			return _react2.default.createElement('div', { style: planeStyle });
 		}
@@ -90,9 +90,10 @@
 		displayName: 'Box',
 
 		render: function render() {
-			var color = '#7797cb',
-			    width = 100,
-			    height = 100;
+			var color = this.props.color,
+			    width = this.props.width,
+			    height = this.props.height,
+			    background = this.props.background;
 
 			var divStyle = {
 				position: 'absolute',
@@ -104,12 +105,12 @@
 			return _react2.default.createElement(
 				'div',
 				{ style: divStyle },
-				_react2.default.createElement(Plane, { width: width, height: height, color: color, angleY: 45 }),
-				_react2.default.createElement(Plane, { width: width, height: height, color: color, angleY: 135 }),
-				_react2.default.createElement(Plane, { width: width, height: height, color: color, angleY: 225 }),
-				_react2.default.createElement(Plane, { width: width, height: height, color: color, angleY: 315 }),
-				_react2.default.createElement(Plane, { width: width, height: height, color: color, angleZ: 45, angleX: 90 }),
-				_react2.default.createElement(Plane, { width: width, height: height, color: color, angleZ: 45, angleX: 270 })
+				_react2.default.createElement(Plane, { width: width, height: height, color: color, background: background, angleY: 45 }),
+				_react2.default.createElement(Plane, { width: width, height: height, color: color, background: background, angleY: 135 }),
+				_react2.default.createElement(Plane, { width: width, height: height, color: color, background: background, angleY: 225 }),
+				_react2.default.createElement(Plane, { width: width, height: height, color: color, background: background, angleY: 315 }),
+				_react2.default.createElement(Plane, { width: width, height: height, color: color, background: background, angleZ: 45, angleX: 90 }),
+				_react2.default.createElement(Plane, { width: width, height: height, color: color, background: background, angleZ: 45, angleX: 270 })
 			);
 		}
 	});
@@ -126,10 +127,20 @@
 				transformStyle: 'preserve-3d'
 			};
 
+			var smallBoxWidth = 50,
+			    smallBoxHeight = 50,
+			    smallBoxColor = '#000',
+			    smallBoxBack = '#000',
+			    bigBoxWidth = 100,
+			    bigBoxHeight = 100,
+			    bigBoxColor = '#7797cb',
+			    bigBoxBack = 'radial-gradient(white 5%, #7797cb 95%)';
+
 			return _react2.default.createElement(
 				'div',
 				{ style: wrapperStyle },
-				_react2.default.createElement(Box, null)
+				_react2.default.createElement(Box, { width: smallBoxWidth, height: smallBoxHeight, color: smallBoxColor, background: smallBoxBack }),
+				_react2.default.createElement(Box, { width: bigBoxWidth, height: bigBoxHeight, color: bigBoxColor, background: bigBoxBack })
 			);
 		}
 	});
