@@ -1,8 +1,7 @@
 'user strict'
 import React from 'react';
 import ReactDom from 'react-dom';
-//#85a6d9
-//#7797cb
+
 var Plane = React.createClass({
 	render: function(){
 		var width = this.props.width;
@@ -32,6 +31,20 @@ var Plane = React.createClass({
 });
 
 var Box = React.createClass({
+	
+	getInitialState: function(){
+		return {
+			angle: 0
+		}
+	},
+	anti_clockwise: function(){
+		var angle = this.state.angle + 360;
+		this.setState({angle: angle});
+	},	
+	clockwise: function(){
+		var angle = this.state.angle - 360;
+		this.setState({angle: angle});
+	},
 	 render: function(){
 	 	var color = this.props.color,
 	 		width = this.props.width,
@@ -43,7 +56,8 @@ var Box = React.createClass({
 		    top: '50%',
 		    left: '50%',
 		    transformStyle: 'preserve-3d',
-		    transform: 'rotateX(-30deg)'
+		    transform: 'rotateX(-30deg) rotateY(' + this.state.angle + 'deg)',
+		    transition: 'transform 1s'
 	 	}
 	 	return(
 	 		<div style={divStyle}>
@@ -59,6 +73,17 @@ var Box = React.createClass({
 });
 
 var Wrapper = React.createClass({
+	
+	handleClick: function(){
+		this.refs.smallBox.anti_clockwise();
+		this.refs.bigBox.clockwise();
+	},	
+	componentDidMount: function(){
+		setInterval(function(){
+			this.refs.smallBox.anti_clockwise();
+			this.refs.bigBox.clockwise();
+		}.bind(this),2000);
+	},
 	render: function(){
 		var wrapperStyle = {
 			perspective: '1100px',
@@ -78,9 +103,9 @@ var Wrapper = React.createClass({
 			bigBoxBack = 'radial-gradient(white 5%, #7797cb 95%)';
 		
 		return (
-			<div style={wrapperStyle}>
-				<Box width={smallBoxWidth} height={smallBoxHeight} color={smallBoxColor} background={smallBoxBack}></Box>
-				<Box width={bigBoxWidth} height={bigBoxHeight} color={bigBoxColor} background={bigBoxBack}></Box>
+			<div style={wrapperStyle} onClick={this.handleClick}>
+				<Box ref={'smallBox'} width={smallBoxWidth} height={smallBoxHeight} color={smallBoxColor} background={smallBoxBack}></Box>
+				<Box ref={'bigBox'} width={bigBoxWidth} height={bigBoxHeight} color={bigBoxColor} background={bigBoxBack}></Box>
 			</div>
 		);
 	}

@@ -57,8 +57,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	//#85a6d9
-	//#7797cb
 	var Plane = _react2.default.createClass({
 		displayName: 'Plane',
 
@@ -89,6 +87,20 @@
 	var Box = _react2.default.createClass({
 		displayName: 'Box',
 
+
+		getInitialState: function getInitialState() {
+			return {
+				angle: 0
+			};
+		},
+		anti_clockwise: function anti_clockwise() {
+			var angle = this.state.angle + 360;
+			this.setState({ angle: angle });
+		},
+		clockwise: function clockwise() {
+			var angle = this.state.angle - 360;
+			this.setState({ angle: angle });
+		},
 		render: function render() {
 			var color = this.props.color,
 			    width = this.props.width,
@@ -100,7 +112,8 @@
 				top: '50%',
 				left: '50%',
 				transformStyle: 'preserve-3d',
-				transform: 'rotateX(-30deg)'
+				transform: 'rotateX(-30deg) rotateY(' + this.state.angle + 'deg)',
+				transition: 'transform 1s'
 			};
 			return _react2.default.createElement(
 				'div',
@@ -118,6 +131,17 @@
 	var Wrapper = _react2.default.createClass({
 		displayName: 'Wrapper',
 
+
+		handleClick: function handleClick() {
+			this.refs.smallBox.anti_clockwise();
+			this.refs.bigBox.clockwise();
+		},
+		componentDidMount: function componentDidMount() {
+			setInterval(function () {
+				this.refs.smallBox.anti_clockwise();
+				this.refs.bigBox.clockwise();
+			}.bind(this), 2000);
+		},
 		render: function render() {
 			var wrapperStyle = {
 				perspective: '1100px',
@@ -138,9 +162,9 @@
 
 			return _react2.default.createElement(
 				'div',
-				{ style: wrapperStyle },
-				_react2.default.createElement(Box, { width: smallBoxWidth, height: smallBoxHeight, color: smallBoxColor, background: smallBoxBack }),
-				_react2.default.createElement(Box, { width: bigBoxWidth, height: bigBoxHeight, color: bigBoxColor, background: bigBoxBack })
+				{ style: wrapperStyle, onClick: this.handleClick },
+				_react2.default.createElement(Box, { ref: 'smallBox', width: smallBoxWidth, height: smallBoxHeight, color: smallBoxColor, background: smallBoxBack }),
+				_react2.default.createElement(Box, { ref: 'bigBox', width: bigBoxWidth, height: bigBoxHeight, color: bigBoxColor, background: bigBoxBack })
 			);
 		}
 	});
